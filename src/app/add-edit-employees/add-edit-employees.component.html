@@ -1,0 +1,80 @@
+<div class="modal-header">
+    <h4 *ngIf="editMode" class="modal-title">Edit Employee</h4>
+    <h4 *ngIf="!editMode" class="modal-title">Add new Employee</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<form [formGroup]="empForm" (ngSubmit)="onSubmit(empForm.value,content)">
+    <div class="modal-body">
+
+            <div class="form-group">
+                <label for="employeeName">Employee Name</label>
+                <input type="text"   id="employeeName" class="form-control" placeholder="Enter Employee Name" required formControlName="employeeName">
+                <ng-container *ngIf="empForm.controls.employeeName.invalid && (empForm.controls.employeeName.dirty || empForm.controls.employeeName.touched)"
+                  >
+                    <div class="errorDiv" *ngIf="empForm.controls.employeeName.errors?.required">
+                        Name is required.
+                    </div>
+
+                </ng-container>
+            </div>
+            
+            <div class="form-group">
+                <label for="dateOfBirth">Employee Birth Date</label>
+                <input type="date"  class="form-control" id="dateOfBirth" formControlName="dateOfBirth">
+            </div>
+
+            <div class="form-group">
+                <label for="officialID">Offical Number</label>
+                <input type="number"  id="officialID"   class="form-control" placeholder="Enter Official Number" required formControlName="officialID">
+                <ng-container *ngIf="empForm.controls.officialID.invalid && (empForm.controls.officialID.dirty || empForm.controls.officialID.touched)"
+                   >
+                    <div  class="errorDiv" *ngIf="empForm.controls.officialID.errors?.required">
+                        official Number is required.
+                    </div>
+
+                </ng-container>
+            </div>
+
+            <div class="form-group">
+                <label for="emailAddress">Employee Email</label>
+                <input type="email"  id="emailAddress" class="form-control" placeholder="Enter email" required formControlName="emailAddress">
+                <ng-container  *ngIf="empForm.controls.emailAddress.invalid && (empForm.controls.emailAddress.dirty || empForm.controls.emailAddress.touched)"
+                    >
+                    <div  class="errorDiv" *ngIf="empForm.controls.emailAddress.errors?.email">
+                        Employee Email is Not Valid.
+                    </div>
+                    <div   class="errorDiv"  *ngIf="empForm.controls.emailAddress.errors?.required">
+                        Employee Email is Required.
+                    </div>
+
+                </ng-container>
+            </div>
+        
+
+
+    </div>
+    <div class="modal-footer">
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <button type="submit" class="btn btn-success" [disabled]="!empForm.valid">Save</button>
+            <button type="button" class="btn btn-danger "  (click)="activeModal.dismiss('cancel click')" style="margin:0 2px">Cancel</button>
+        </div>
+    </div>
+</form>
+
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" style="color: red;">Error</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p> {{ errorMessage }}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>

@@ -1,0 +1,79 @@
+<div class="container" style="padding: 5%;">
+    <div class="row" style="padding: 1%;">
+     <div class="col-3">
+       <h3> Employee – List</h3>
+      </div>
+      <div class="col-6">
+       
+      </div>
+      <div class="col">
+        <div class="row justify-content-end">
+            <button  style="margin-right:15px ;" type="button" class="btn btn-labeled btn-success" (click)="addEmployee()">
+                + Add Employee</button>
+          </div>
+        </div>
+    </div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Employee Name</th>
+            <th scope="col">Creation Date</th>
+            <th scope="col">Date Of Birth</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let  item of employees">
+            <th scope="row">{{ item.id }}</th>
+
+            <td>{{item.employeeName}}</td>
+            <td>{{item.creationDate}}</td>
+            <td>{{item.dateOfBirth}}</td>
+            <td>
+                <button type="button" class="btn btn-labeled btn-info" (click)="editEmployee(item)">
+                    Edit</button>
+            </td>
+            <td>
+                <button type="button" class="btn btn-labeled btn-danger" (click)="openConfirmMessage(item,content)">
+                    Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="d-flex justify-content-between p-2">
+    <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize"
+        (pageChange)="refreshEmployees()">
+    </ngb-pagination>
+
+    <select class="custom-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshEmployees()">
+        <option [ngValue]="2">2 items per page</option>
+        <option [ngValue]="4">4 items per page</option>
+        <option [ngValue]="6">6 items per page</option>
+    </select>
+</div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-title">Employee deletion</h4>
+        <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Are you sure you want to delete <span class="text-primary">{{deletedEmploye.employeeName}}</span> Employee?</strong></p>
+        <p>All information associated to this user Employee will be permanently deleted.
+        <span class="text-danger">This operation can not be undo.</span>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
+        <button type="button" ngbAutofocus class="btn btn-danger" (click)="deleteEmployee()">Ok</button>
+      </div>
+</ng-template>
+  
